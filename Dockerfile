@@ -13,6 +13,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends wget unzip git 
 
 RUN pip install -U platformio
 
+# ESP32 & ESP8266 Arduino Frameworks for Platformio
+RUN pio platform install espressif32  --with-package framework-espidf \
+ && cat /root/.platformio/platforms/espressif32/platform.py \
+ && chmod 777 /root/.platformio/platforms/espressif32/platform.py \
+ && sed -i 's/~2/>=1/g' /root/.platformio/platforms/espressif32/platform.py \
+ && cat /root/.platformio/platforms/espressif32/platform.py
+ 
 # ESP-IDF for projects containing `sdkconfig` or `*platform*espidf*` in platformio.ini
 RUN mkdir -p /root/esp \
  && apt-get install -y --no-install-recommends  gcc libncurses-dev flex bison gperf python python-serial \
@@ -31,8 +38,8 @@ RUN export PATH=$PATH:/root/esp/xtensa-esp32-elf/bin \
  && cp -v /opt/dummy-esp32-idf/sdkconfig . \
  && make
 
-WORKDIR /opt/dummy-esp32-idf
-RUN pio --version && pio run
+#WORKDIR /opt/dummy-esp32-idf
+#RUN pio --version && pio run
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
