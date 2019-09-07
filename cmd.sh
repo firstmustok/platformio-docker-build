@@ -39,7 +39,7 @@ else
   true
 fi
 
-cd /opt/workspace
+# cd /opt/workspace
 
 #
 # Build
@@ -69,8 +69,8 @@ if [[ BUILD_TYPE == "platformio" ]]; then
 
   rm -rf build/partitions_singleapp.bin
 
-  cp -vf build/*.bin /opt/workspace/build/firmware.bin
-  cp -vf build/*.elf /opt/workspace/build/firmware.elf
+  cp -vf build/*.bin ./build/firmware.bin
+  cp -vf build/*.elf ./build/firmware.elf
 
 else
 
@@ -90,12 +90,12 @@ else
     if [[ -d $dir ]]; then
       pushd $dir
       if [[ -f firmware.bin ]]; then
-        if [[ ! -d /opt/workspace/build ]]; then
-          mkdir -p /opt/workspace/build
+        if [[ ! -d ./build ]]; then
+          mkdir -p ./build
         fi
-        cp -vf firmware.bin /opt/workspace/build/firmware.bin
+        cp -vf firmware.bin ./build/firmware.bin
         if [[ -f firmware.elf ]]; then
-          cp -vf firmware.elf /opt/workspace/build/firmware.elf
+          cp -vf firmware.elf ./build/firmware.elf
         fi
       fi
       popd
