@@ -75,33 +75,7 @@ if [[ BUILD_TYPE == "platformio" ]]; then
 else
 
   platformio run # --silent # suppressed progress reporting
-  if [[ -d build ]]; then
-    rm -rf build
-  fi
-
-  mkdir build
-
-  cd ./.pioenvs
-
-  # WARNING! Currently supports only one simultaneous
-  # build-environment and overwrites OUTFILE(s) with recents.
-
-  for dir in $(ls -d */); do
-    if [[ -d $dir ]]; then
-      pushd $dir
-      if [[ -f firmware.bin ]]; then
-        if [[ ! -d ./build ]]; then
-          mkdir -p ./build
-        fi
-        cp -vf firmware.bin ./build/firmware.bin
-        if [[ -f firmware.elf ]]; then
-          cp -vf firmware.elf ./build/firmware.elf
-        fi
-      fi
-      popd
-    fi
-  done
-
+  
 fi
 
 RESULT=$?
